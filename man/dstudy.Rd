@@ -7,7 +7,7 @@
 dstudy(data, col.scores, from, to, by, rounded = 3)
 }
 \arguments{
-\item{data}{A data frame in which the FIRST column is for Person, the SECOND column is for Trial, and then the remaining columns are for metrics.}
+\item{data}{A data frame containing a column for "Person", a column is for "Trial", and the remaining columns for metrics.}
 
 \item{col.scores}{A column index or variable name denoting the column in the original data frame that serves as the dependent variable.}
 

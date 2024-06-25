@@ -1,6 +1,6 @@
 #' Execute a D-Study
 #'
-#' @param data A data frame in which the FIRST column is for Person, the SECOND column is for Trial, and then the remaining columns are for metrics.
+#' @param data A data frame containing a column for "Person", a column is for "Trial", and the remaining columns for metrics.
 #' @param col.scores A column index or variable name denoting the column in the original data frame that serves as the dependent variable.
 #' @param from The first number of trials to test.
 #' @param to The final number of trials to test.
@@ -17,13 +17,13 @@
 dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
   suppressWarnings(if (!is.na(as.integer(col.scores)) & col.scores == as.integer(col.scores)) {
     data.small <- data %>%
-      dplyr::select(1:2, as.integer(col.scores))
+      dplyr::select(c("Person", "Trial", as.integer(col.scores)))
 
     col.scores <- colnames(data)[col.scores]
   }
   else {
     data.small <- data %>%
-      dplyr::select(1:2, col.scores)
+      dplyr::select(c("Person", "Trial", col.scores))
   })
 
   colnames(data.small)[3] <- "Measure"
