@@ -1,13 +1,13 @@
 #' Execute a D-Study
 #'
-#' @param data A dataframe containing a column for Person, a column for Trial, and several columns for metrics.
-#' @param col.scores A column index or variable name denoting the column in the original dataframe that serves as the dependent variable.
+#' @param data A data frame in which the FIRST column is for Person, the SECOND column is for Trial, and then the remaining columns are for metrics.
+#' @param col.scores A column index or variable name denoting the column in the original data frame that serves as the dependent variable.
 #' @param from The first number of trials to test.
 #' @param to The final number of trials to test.
 #' @param by The interval at which trial numbers should be tested.
 #' @param rounded The number of decimal places the reliability coefficients should be rounded to.
 #'
-#' @return A dataframe of reliability coefficients for the specified numbers of trials.
+#' @return A data frame of reliability coefficients for the specified numbers of trials.
 #' @export
 #'
 #' @examples

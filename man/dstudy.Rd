@@ -7,9 +7,9 @@
 dstudy(data, col.scores, from, to, by, rounded = 3)
 }
 \arguments{
-\item{data}{A dataframe containing a column for Person, a column for Trial, and several columns for metrics.}
+\item{data}{A data frame in which the FIRST column is for Person, the SECOND column is for Trial, and then the remaining columns are for metrics.}
 
-\item{col.scores}{A column index or variable name denoting the column in the original dataframe that serves as the dependent variable.}
+\item{col.scores}{A column index or variable name denoting the column in the original data frame that serves as the dependent variable.}
 
 \item{from}{The first number of trials to test.}
 
@@ -20,7 +20,7 @@ dstudy(data, col.scores, from, to, by, rounded = 3)
 \item{rounded}{The number of decimal places the reliability coefficients should be rounded to.}
 }
 \value{
-A dataframe of reliability coefficients for the specified numbers of trials.
+A data frame of reliability coefficients for the specified numbers of trials.
 }
 \description{
 Execute a D-Study
