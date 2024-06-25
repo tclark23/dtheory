@@ -15,7 +15,7 @@
 #' colnames(x) <- c("Person", "Trial", "Metric")
 #' dstudy(x, col.scores = "Metric", from = 1, to = 10, by = 1)
 dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
-  if (!is.na(as.integer(col.scores)) & col.scores == as.integer(col.scores)) {
+  suppressWarnings(if (!is.na(as.integer(col.scores)) & col.scores == as.integer(col.scores)) {
     data.small <- data %>%
       dplyr::select(1:2, as.integer(col.scores))
 
@@ -24,7 +24,7 @@ dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
   else {
     data.small <- data %>%
       dplyr::select(1:2, col.scores)
-  }
+  })
 
   colnames(data.small)[3] <- "Measure"
   formula2 <- Measure ~ (1|Person) + (1|Trial)
