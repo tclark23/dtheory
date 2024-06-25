@@ -39,3 +39,7 @@ dstudy(x, col.scores = "Metric", from = 1, to = 10, by = 1)
 ```
 
 Just like magic!
+
+NOTE: IN THE DATA FRAME SUPPLIED, “Person” MUST BE THE FIRST COLUMN, AND
+“Trial” MUST BE THE SECOND COLUMN. THIS IS A REQUIREMENT FOR THE GSTUDY
+FUNCTION (NESTED WITHIN DSTUDY) TO WORK!!
