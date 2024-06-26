@@ -30,7 +30,7 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   n_i <- length(unique(data.small$Trial))
   conf.level <- as.numeric(conf.level)
 
-  ANOVA <- summary(aov(Measure ~ as.factor(Person)*as.factor(Trial), data = data.small))
+  ANOVA <- summary(stats::aov(Measure ~ as.factor(Person)*as.factor(Trial), data = data.small))
   M_p <- ANOVA[[1]][[3]][[1]]
   M_i <- ANOVA[[1]][[3]][[2]]
   M_pi <- ANOVA[[1]][[3]][[3]]
@@ -39,12 +39,12 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   df_i <- n_i - 1
   df_pi <- df_p*df_i
 
-  L_num <- M_p^2 - qf(1-alpha,df_p,Inf)*M_p*M_pi + (qf(1-alpha,df_p,Inf) - qf(1-alpha,df_p,df_pi))*qf(1-alpha,df_p,df_pi)*(M_pi^2)
-  L_denom <- (n_p - 1)*qf(1-alpha,df_p,Inf)*M_p*M_pi + qf(1-alpha,df_p,df_i)*M_p*M_i
+  L_num <- M_p^2 - stats::qf(1-alpha,df_p,Inf)*M_p*M_pi + (stats::qf(1-alpha,df_p,Inf) - stats::qf(1-alpha,df_p,df_pi))*stats::qf(1-alpha,df_p,df_pi)*(M_pi^2)
+  L_denom <- (n_p - 1)*stats::qf(1-alpha,df_p,Inf)*M_p*M_pi + stats::qf(1-alpha,df_p,df_i)*M_p*M_i
   L_p <- L_num/L_denom
 
-  U_num <- M_p^2 - qf(alpha,df_p,Inf)*M_p*M_pi + (qf(alpha,df_p,Inf) - qf(alpha,df_p,df_pi))*qf(alpha,df_p,df_pi)*(M_pi^2)
-  U_denom <- (n_p - 1)*qf(alpha,df_p,Inf)*M_p*M_pi + qf(alpha,df_p,df_i)*M_p*M_i
+  U_num <- M_p^2 - stats::qf(alpha,df_p,Inf)*M_p*M_pi + (stats::qf(alpha,df_p,Inf) - stats::qf(alpha,df_p,df_pi))*stats::qf(alpha,df_p,df_pi)*(M_pi^2)
+  U_denom <- (n_p - 1)*stats::qf(alpha,df_p,Inf)*M_p*M_pi + stats::qf(alpha,df_p,df_i)*M_p*M_i
   U_p <- U_num/U_denom
 
   L_rat <- (n_p*L_p)/(n_p*L_p + n_i)
