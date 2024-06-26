@@ -23,8 +23,11 @@ A data frame containing the G-coefficient (for absolute agreement), as well as t
 \description{
 Find G-Coefficient Confidence Interval
 }
+\note{
+The confidence interval calculation, originally developed by Arteaga et al. (1982) assumes that score effects are normally distributed. Hence, any attempt to use dconf() with non-normal data will not produce a reasonable result!
+}
 \examples{
-x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 5))
+x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 20))
 colnames(x) <- c("Person", "Trial", "Metric")
 dconf(x, col.scores = "Metric", n = 5, conf.level = .9)
 }
