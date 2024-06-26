@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples
-#' x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 5))
+#' x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 20))
 #' colnames(x) <- c("Person", "Trial", "Metric")
 #' dstudy(x, col.scores = "Metric", from = 1, to = 10, by = 1)
 dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
