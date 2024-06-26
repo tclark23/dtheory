@@ -35,8 +35,14 @@ Imagine you had this simple data frame from a small study you did, and you wante
 
 ```{r example}
 library(dtheory)
-x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 5))
+x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 20))
 colnames(x) <- c("Person", "Trial", "Metric")
 dstudy(x, col.scores = "Metric", from = 1, to = 10, by = 1)
 ```
 Just like magic!
+
+Or, say you have already decided on the number of trials you wish to use. Continuing from the previous example, let's use n = 10. But now, you want to find the confidence interval for that G-coefficient at the alpha = .05 confidence level. For that, we can use the ```dconf``` function!
+```{r}
+dconf(x, col.scores = "Metric", n = 10)
+```
+NOTE: The ```dconf()``` confidence interval calculation, originally developed by Arteaga et al. (1982) assumes that score effects are normally distributed. Hence, any attempt to use ```dconf()```with non-normal data will not produce a reasonable result!
