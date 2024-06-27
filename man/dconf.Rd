@@ -13,7 +13,7 @@ dconf(data, col.scores, n, conf.level = 0.95, rounded = 3)
 
 \item{n}{The number of trials to test.}
 
-\item{conf.level}{Confidence level (in decimal form).}
+\item{conf.level}{Confidence level (in decimal form). 0.95 by default.}
 
 \item{rounded}{The number of decimal places the reliability coefficients should be rounded to.}
 }
