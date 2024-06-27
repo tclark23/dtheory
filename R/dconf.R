@@ -47,16 +47,39 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
 
   n_p <- length(unique(data.small$Person))
   n_i <- length(unique(data.small$Trial))
+  univ_mean <- mean(data.small$Measure, na.rm = T)
   conf.level <- as.numeric(conf.level)
 
-  ANOVA <- summary(stats::aov(Measure ~ as.factor(Person)*as.factor(Trial), data = data.small))
-  M_p <- ANOVA[[1]][[3]][[1]]
-  M_i <- ANOVA[[1]][[3]][[2]]
-  M_pi <- ANOVA[[1]][[3]][[3]]
-  alpha <- (1-conf.level)/2
+  persons <- data.small %>% dplyr::group_by(Person) %>% dplyr::summarize(mean(Measure, na.rm = TRUE)) %>% dplyr::select(-Person)
+  persons <- tibble::deframe(persons)
+  persons <- stats::na.omit(persons)
+  persons_out <- purrr::map(persons, ~((.x - univ_mean)^2))
+  persons_out <- unlist(persons_out, use.names = F)
+  SS_p <- sum(persons_out)*n_i
+
+  jumps <- data.small %>% dplyr::group_by(Trial) %>% dplyr::summarize(mean(Measure, na.rm = TRUE)) %>% dplyr::select(-Trial)
+  jumps <- tibble::deframe(jumps)
+  jumps <- stats::na.omit(jumps)
+  jumps_out <- purrr::map(jumps, ~((.x - univ_mean)^2))
+  jumps_out <- unlist(jumps_out, use.names = F)
+  SS_i <- sum(jumps_out)*n_p
+
+  total <- data.small %>% dplyr::select(Measure)
+  total <- tibble::deframe(total)
+  total <- stats::na.omit(total)
+  total_out <- purrr::map(total, ~((.x - univ_mean)^2))
+  total_out <- unlist(total_out, use.names = F)
+  SS_total <- sum(total_out)
+  SS_pi <- SS_total - SS_p - SS_i
+
   df_p <- n_p - 1
   df_i <- n_i - 1
   df_pi <- df_p*df_i
+
+  M_p <- SS_p/df_p
+  M_i <- SS_i/df_i
+  M_pi <- SS_pi/df_pi
+  alpha <- (1-conf.level)/2
 
   L_num <- M_p^2 - stats::qf(1-alpha,df_p,Inf)*M_p*M_pi + (stats::qf(1-alpha,df_p,Inf) - stats::qf(1-alpha,df_p,df_pi))*stats::qf(1-alpha,df_p,df_pi)*(M_pi^2)
   L_denom <- (n_p - 1)*stats::qf(1-alpha,df_p,Inf)*M_p*M_pi + stats::qf(1-alpha,df_p,df_i)*M_p*M_i
