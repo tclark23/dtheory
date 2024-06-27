@@ -41,14 +41,14 @@ dstudy(x, col.scores = "Metric", from = 1, to = 10, by = 1)
 Just like magic!
 
 Or, say you have already decided on the number of trials you wish to
-use. Continuing from the previous example, let’s use n = 10. But now,
-you want to find the confidence interval for that G-coefficient at the
-alpha = .05 confidence level. For that, we can use the `dconf` function!
+use. Continuing from the previous example, let’s use n = 2. But now, you
+want to find the confidence interval for that G-coefficient at the alpha
+= .05 confidence level. For that, we can use the `dconf` function!
 
 ``` r
-dconf(x, col.scores = "Metric", n = 10)
-#>                G-coef Lower Bound Upper Bound
-#> Metric, n = 10  0.982       0.645           1
+dconf(x, col.scores = "Metric", n = 2)
+#>               G-coef Lower Bound Upper Bound
+#> Metric, n = 2  0.915       0.266       0.998
 ```
 
 NOTE: The `dconf()` confidence interval calculation, originally
