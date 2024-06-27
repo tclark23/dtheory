@@ -4,7 +4,7 @@
 #' @param col.scores A column index or variable name denoting the column in the data frame that serves as the dependent variable.
 #' @param n The number of trials to test.
 #' @param conf.level Confidence level (in decimal form). 0.95 by default.
-#' @param rounded The number of decimal places the reliability coefficients should be rounded to.
+#' @param rounded The number of decimal places the reliability coefficients should be rounded to. 3 by default.
 #'
 #' @return A data frame containing the G-coefficient (for absolute agreement), as well as the corresponding lower and upper bounds at the specified confidence level.
 #' @export

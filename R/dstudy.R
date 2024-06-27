@@ -5,7 +5,7 @@
 #' @param from The first number of trials to test.
 #' @param to The final number of trials to test.
 #' @param by The interval at which trial numbers should be tested.
-#' @param rounded The number of decimal places the reliability coefficients should be rounded to.
+#' @param rounded The number of decimal places the reliability coefficients should be rounded to. 3 by default.
 #'
 #' @return A data frame of G-coefficients (absolute agreement) for the specified numbers of trials.
 #' @export

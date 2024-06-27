@@ -17,7 +17,7 @@ dstudy(data, col.scores, from, to, by, rounded = 3)
 
 \item{by}{The interval at which trial numbers should be tested.}
 
-\item{rounded}{The number of decimal places the reliability coefficients should be rounded to.}
+\item{rounded}{The number of decimal places the reliability coefficients should be rounded to. 3 by default.}
 }
 \value{
 A data frame of G-coefficients (absolute agreement) for the specified numbers of trials.
