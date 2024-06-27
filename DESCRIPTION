@@ -14,8 +14,7 @@ Imports:
     dplyr,
     gtheory,
     magrittr,
-    purrr,
     stats,
-    tibble
+    tidyr
 URL: https://github.com/tclark23/dtheory
 BugReports: https://github.com/tclark23/dtheory/issues

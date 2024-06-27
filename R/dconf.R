@@ -20,13 +20,15 @@
 dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   suppressWarnings(if (!is.na(as.integer(col.scores)) & col.scores == as.integer(col.scores)) {
     data.small <- data %>%
-      dplyr::select(c("Person", "Trial", as.integer(col.scores)))
+      dplyr::select(c("Person", "Trial", as.integer(col.scores))) %>%
+      tidyr::drop_na()
 
     col.scores <- colnames(data)[col.scores]
   }
   else {
     data.small <- data %>%
-      dplyr::select(c("Person", "Trial", col.scores))
+      dplyr::select(c("Person", "Trial", col.scores)) %>%
+      tidyr::drop_na()
   })
 
   colnames(data.small)[3] <- "Measure"
@@ -51,25 +53,13 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   conf.level <- as.numeric(conf.level)
 
   persons <- data.small %>% dplyr::group_by(Person) %>% dplyr::summarize(mean(Measure, na.rm = TRUE)) %>% dplyr::select(-Person)
-  persons <- tibble::deframe(persons)
-  persons <- stats::na.omit(persons)
-  persons_out <- purrr::map(persons, ~((.x - univ_mean)^2))
-  persons_out <- unlist(persons_out, use.names = F)
-  SS_p <- sum(persons_out)*n_i
+  SS_p <- n_i*sum((persons - univ_mean)^2)
 
   jumps <- data.small %>% dplyr::group_by(Trial) %>% dplyr::summarize(mean(Measure, na.rm = TRUE)) %>% dplyr::select(-Trial)
-  jumps <- tibble::deframe(jumps)
-  jumps <- stats::na.omit(jumps)
-  jumps_out <- purrr::map(jumps, ~((.x - univ_mean)^2))
-  jumps_out <- unlist(jumps_out, use.names = F)
-  SS_i <- sum(jumps_out)*n_p
+  SS_i <- n_p*sum((jumps - univ_mean)^2)
 
   total <- data.small %>% dplyr::select(Measure)
-  total <- tibble::deframe(total)
-  total <- stats::na.omit(total)
-  total_out <- purrr::map(total, ~((.x - univ_mean)^2))
-  total_out <- unlist(total_out, use.names = F)
-  SS_total <- sum(total_out)
+  SS_total <- sum((total - univ_mean)^2)
   SS_pi <- SS_total - SS_p - SS_i
 
   df_p <- n_p - 1
