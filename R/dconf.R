@@ -1,12 +1,12 @@
 #' Find G-Coefficient Confidence Interval
 #'
 #' @param data A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.
-#' @param col.scores A column index or variable name denoting the column in the original data frame that serves as the dependent variable.
+#' @param col.scores A column index or variable name denoting the column in the data frame that serves as the dependent variable.
 #' @param n The number of trials to test.
 #' @param conf.level Confidence level (in decimal form).
 #' @param rounded The number of decimal places the reliability coefficients should be rounded to.
 #'
-#' @return A data frame containing the G-coefficient (for absolute agreement), as well as the corresponding lower and upper bounds.
+#' @return A data frame containing the G-coefficient (for absolute agreement), as well as the corresponding lower and upper bounds at the specified confidence level.
 #' @export
 #'
 #' @note

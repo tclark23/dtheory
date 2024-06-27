@@ -9,7 +9,7 @@ dconf(data, col.scores, n, conf.level = 0.95, rounded = 3)
 \arguments{
 \item{data}{A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.}
 
-\item{col.scores}{A column index or variable name denoting the column in the original data frame that serves as the dependent variable.}
+\item{col.scores}{A column index or variable name denoting the column in the data frame that serves as the dependent variable.}
 
 \item{n}{The number of trials to test.}
 
@@ -18,7 +18,7 @@ dconf(data, col.scores, n, conf.level = 0.95, rounded = 3)
 \item{rounded}{The number of decimal places the reliability coefficients should be rounded to.}
 }
 \value{
-A data frame containing the G-coefficient (for absolute agreement), as well as the corresponding lower and upper bounds.
+A data frame containing the G-coefficient (for absolute agreement), as well as the corresponding lower and upper bounds at the specified confidence level.
 }
 \description{
 Find G-Coefficient Confidence Interval
