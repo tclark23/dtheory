@@ -18,6 +18,7 @@
 #' colnames(x) <- c("Person", "Trial", "Metric")
 #' dconf(x, col.scores = "Metric", n = 5, conf.level = .9)
 dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
+  # Dealing with the different ways the user might enter col.scores
   suppressWarnings(if (!is.na(as.integer(col.scores)) & col.scores == as.integer(col.scores)) {
     data.small <- data %>%
       dplyr::select(c("Person", "Trial", as.integer(col.scores))) %>%
@@ -31,14 +32,17 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
       tidyr::drop_na()
   })
 
+  # Running a G-study using the gtheory package
   colnames(data.small)[3] <- "Measure"
   formula2 <- Measure ~ (1|Person) + (1|Trial)
   comps <- data.frame(gtheory::gstudy(data = data.small, formula2)$components)
   y <- c("Person", "Trial", "Residual")
 
+  # Putting the output into a specific format
   comps <- comps %>%
     dplyr::slice(match(y, source))
 
+  # Calculating the G-coef, and adding it to the final data frame
   n <- as.integer(n)
   final_df <- data.frame(0,0,0)
   colnames(final_df)[1] <- paste0("G-coef")
@@ -47,6 +51,7 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   G <- comps[1, ncol(comps)]/sum(comps$dvar)
   final_df[1,1] <- round(G, as.integer(rounded))
 
+  # Using Huebner's method to calculate the MS (needed for CI calculation)
   n_p <- length(unique(data.small$Person))
   n_i <- length(unique(data.small$Trial))
   univ_mean <- mean(data.small$Measure, na.rm = T)
@@ -71,6 +76,7 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   M_pi <- SS_pi/df_pi
   alpha <- (1-conf.level)/2
 
+  # Calculating the confidence interval for the G-coef
   L_num <- M_p^2 - stats::qf(1-alpha,df_p,Inf)*M_p*M_pi + (stats::qf(1-alpha,df_p,Inf) - stats::qf(1-alpha,df_p,df_pi))*stats::qf(1-alpha,df_p,df_pi)*(M_pi^2)
   L_denom <- (n_p - 1)*stats::qf(1-alpha,df_p,Inf)*M_p*M_pi + stats::qf(1-alpha,df_p,df_i)*M_p*M_i
   L_p <- L_num/L_denom
@@ -85,6 +91,7 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   lower.bound <- (n*L_rat)/(1 + (n - 1)*L_rat)
   upper.bound <- (n*U_rat)/(1 + (n - 1)*U_rat)
 
+  # Adding the lower and upper bounds to the final data frame
   final_df[1,2] <- round(lower.bound, as.integer(rounded))
   colnames(final_df)[2] <- "Lower Bound"
   final_df[1,3] <- round(upper.bound, as.integer(rounded))

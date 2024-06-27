@@ -15,6 +15,7 @@
 #' colnames(x) <- c("Person", "Trial", "Metric")
 #' dstudy(x, col.scores = "Metric", from = 1, to = 10, by = 1)
 dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
+  # Dealing with the different ways the user might enter col.scores
   suppressWarnings(if (!is.na(as.integer(col.scores)) & col.scores == as.integer(col.scores)) {
     data.small <- data %>%
       dplyr::select(c("Person", "Trial", as.integer(col.scores)))
@@ -26,11 +27,13 @@ dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
       dplyr::select(c("Person", "Trial", col.scores))
   })
 
+  # Running a G-study from the gtheory package
   colnames(data.small)[3] <- "Measure"
   formula2 <- Measure ~ (1|Person) + (1|Trial)
   comps <- data.frame(gtheory::gstudy(data = data.small, formula2)$components)
   y <- c("Person", "Trial", "Residual")
 
+  # Putting the output into a specific format
   comps <- comps %>%
     dplyr::slice(match(y, source))
 
@@ -38,6 +41,7 @@ dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
   to <- as.integer(to)
   by <- as.integer(by)
 
+  # Calculating the first G-coef and adding it to the final data frame
   final_df <- data.frame(0)
   colnames(final_df)[1] <- paste0("n = ", from)
   rownames(final_df)[1] <- col.scores
@@ -45,6 +49,8 @@ dstudy <- function(data, col.scores, from, to, by, rounded = 3) {
   G1 <- comps[1, ncol(comps)]/sum(comps$dvar)
   final_df[1,1] <- round(G1, as.integer(rounded))
 
+  # Iterating through the rest of the trial numbers in the sequence and adding
+  # the corresponding G-coefs to the final data frame as well
   for (n in seq(from = from + by, to = to, by = by)) {
     temp <- data.frame(0)
     colnames(temp)[1] <- paste0("n = ", n)
