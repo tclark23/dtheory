@@ -7,7 +7,7 @@
 dconf(data, col.scores, n, conf.level = 0.95, rounded = 3)
 }
 \arguments{
-\item{data}{A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.}
+\item{data}{A numeric data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.}
 
 \item{col.scores}{A column index or variable name denoting the column in the data frame that serves as the dependent variable.}
 

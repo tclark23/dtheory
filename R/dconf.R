@@ -1,6 +1,6 @@
 #' Find G-Coefficient Confidence Interval
 #'
-#' @param data A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.
+#' @param data A numeric data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.
 #' @param col.scores A column index or variable name denoting the column in the data frame that serves as the dependent variable.
 #' @param n The number of trials to test.
 #' @param conf.level Confidence level (in decimal form). 0.95 by default.
@@ -31,9 +31,27 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
       dplyr::select(c("Person", "Trial", col.scores)) %>%
       tidyr::drop_na()
   })
+  colnames(data.small)[3] <- "Measure"
+
+  # Condition checking for correct column types
+  if (!class(data.small$Person) %in% c("integer", "numeric")) {
+    stop("Person column must be numeric!")
+  }
+  else if (!class(data.small$Trial) %in% c("integer", "numeric")) {
+    stop("Trial column must be numeric!")
+  }
+  else if (!class(data.small$Measure) %in% c("integer", "numeric")) {
+    stop("Scores data must be numeric!")
+  }
+
+  # Testing for multivariate normality
+  result1 <- MVN::mvn(data = data.small, mvnTest = "mardia")
+  if (result1$multivariateNormality[3,4] == "NO"){
+    warning("Data entered does not follow multivariate normal distribution.
+Function may not produce reasonable lower/upper bounds.", call. = F)
+  }
 
   # Running a G-study using the gtheory package
-  colnames(data.small)[3] <- "Measure"
   formula2 <- Measure ~ (1|Person) + (1|Trial)
   comps <- data.frame(gtheory::gstudy(data = data.small, formula2)$components)
   y <- c("Person", "Trial", "Residual")
