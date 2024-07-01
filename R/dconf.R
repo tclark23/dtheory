@@ -47,8 +47,8 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   # Testing for multivariate normality
   result1 <- MVN::mvn(data = data.small, mvnTest = "mardia")
   if (result1$multivariateNormality[3,4] == "NO"){
-    warning("Data entered does not follow multivariate normal distribution.
-Function may not produce reasonable lower/upper bounds.", call. = F)
+    warning(paste0("Data entered for ", col.scores, " does not follow multivariate normal distribution.
+Function may not produce reasonable lower/upper bounds."), call. = F)
   }
 
   # Running a G-study using the gtheory package
