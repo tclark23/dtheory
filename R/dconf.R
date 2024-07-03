@@ -18,19 +18,38 @@
 #' colnames(x) <- c("Person", "Trial", "Metric")
 #' dconf(x, col.scores = "Metric", n = 5, conf.level = .9)
 dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
+  # Dealing with data in the incorrect format
+  if (!("Person" %in% colnames(data))) {
+    stop("Data frame must contain a column called 'Person'", call. = F)
+  }
+  else if(!("Trial" %in% colnames(data))) {
+    stop("Data frame must contain a column called 'Trial'", call. = F)
+  }
+
   # Dealing with the different ways the user might enter col.scores
   suppressWarnings(if (!is.na(as.integer(col.scores)) & col.scores == as.integer(col.scores)) {
-    data.small <- data %>%
-      dplyr::select(c("Person", "Trial", as.integer(col.scores))) %>%
-      tidyr::drop_na()
+    if (col.scores <= 0 | col.scores > ncol(data)) {
+      stop(paste0("Invalid column index entered for col.scores!"), call. = F)
+    }
+    else {
+      data.small <- data %>%
+        dplyr::select(c("Person", "Trial", as.integer(col.scores))) %>%
+        tidyr::drop_na()
 
-    col.scores <- colnames(data)[col.scores]
+      col.scores <- colnames(data)[col.scores]
+    }
   }
   else {
-    data.small <- data %>%
-      dplyr::select(c("Person", "Trial", col.scores)) %>%
-      tidyr::drop_na()
+    if (!(col.scores %in% colnames(data))) {
+      stop(paste0("'", col.scores, "'", " is not a column in the data frame. Please check spelling."), call. = F)
+    }
+    else {
+      data.small <- data %>%
+        dplyr::select(c("Person", "Trial", col.scores)) %>%
+        tidyr::drop_na()
+    }
   })
+
   colnames(data.small)[3] <- "Measure"
 
   # Condition checking for correct column types
@@ -59,6 +78,18 @@ Function may not produce reasonable lower/upper bounds."), call. = F)
   # Putting the output into a specific format
   comps <- comps %>%
     dplyr::slice(match(y, source))
+
+  suppressWarnings(if (is.logical(n) | is.na(as.integer(n)) | n != as.integer(n) | as.integer(n) <= 0) {
+    stop("'n' must be a positive integer.", call. = F)
+  })
+
+  suppressWarnings(if (is.logical(rounded) | is.na(as.integer(rounded)) | rounded != as.integer(rounded) | as.integer(rounded) <= 0) {
+    stop("'rounded' must be a positive integer.", call. = F)
+  })
+
+  suppressWarnings(if (is.logical(conf.level) | is.na(as.numeric(conf.level)) | conf.level == as.integer(conf.level) | as.numeric(conf.level) <= 0 | as.numeric(conf.level) >= 1) {
+    stop("'conf.level' must be a positive decimal between 0 and 1, exclusive.", call. = F)
+  })
 
   # Calculating the G-coef, and adding it to the final data frame
   n <- as.integer(n)
