@@ -7,7 +7,7 @@
 dconf(data, col.scores, n, conf.level = 0.95, rounded = 3)
 }
 \arguments{
-\item{data}{A numeric data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.}
+\item{data}{A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.}
 
 \item{col.scores}{A column index or variable name denoting the column in the data frame that serves as the dependent variable.}
 
@@ -24,7 +24,7 @@ A data frame containing the G-coefficient (for absolute agreement), as well as t
 Find G-Coefficient Confidence Interval
 }
 \note{
-The confidence interval calculation, originally developed by Arteaga et al. (1982) assumes that score effects are normally distributed. Hence, any attempt to use dconf() with non-normal data will not produce a reasonable result!
+The confidence interval calculation, originally developed by Arteaga et al. (1982) assumes that score effects are normally distributed. Hence, any attempt to use dconf() with non-normal data will not produce reasonable results!
 }
 \examples{
 x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 20))

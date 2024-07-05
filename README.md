@@ -54,4 +54,4 @@ dconf(x, col.scores = "Metric", n = 2)
 NOTE: The `dconf()` confidence interval calculation, originally
 developed by Arteaga et al. (1982) assumes that score effects are
 normally distributed. Hence, any attempt to use `dconf()`with non-normal
-data will not produce a reasonable result!
+data will not produce reasonable results!

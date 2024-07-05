@@ -1,6 +1,6 @@
 #' Find G-Coefficient Confidence Interval
 #'
-#' @param data A numeric data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.
+#' @param data A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.
 #' @param col.scores A column index or variable name denoting the column in the data frame that serves as the dependent variable.
 #' @param n The number of trials to test.
 #' @param conf.level Confidence level (in decimal form). 0.95 by default.
@@ -10,7 +10,7 @@
 #' @export
 #'
 #' @note
-#' The confidence interval calculation, originally developed by Arteaga et al. (1982) assumes that score effects are normally distributed. Hence, any attempt to use dconf() with non-normal data will not produce a reasonable result!
+#' The confidence interval calculation, originally developed by Arteaga et al. (1982) assumes that score effects are normally distributed. Hence, any attempt to use dconf() with non-normal data will not produce reasonable results!
 
 #'
 #' @examples
@@ -53,20 +53,14 @@ dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
   colnames(data.small)[3] <- "Measure"
 
   # Condition checking for correct column types
-  if (!class(data.small$Person) %in% c("integer", "numeric")) {
-    stop("Person column must be numeric!")
-  }
-  else if (!class(data.small$Trial) %in% c("integer", "numeric")) {
-    stop("Trial column must be numeric!")
-  }
-  else if (!class(data.small$Measure) %in% c("integer", "numeric")) {
+  if (!class(data.small$Measure) %in% c("integer", "numeric")) {
     stop("Scores data must be numeric!")
   }
 
-  # Testing for multivariate normality
-  result1 <- MVN::mvn(data = data.small, mvnTest = "mardia")
-  if (result1$multivariateNormality[3,4] == "NO"){
-    warning(paste0("Data entered for ", col.scores, " does not follow multivariate normal distribution.
+  # Testing for univariate normality
+  result1 <- stats::shapiro.test(data.small$Measure)
+  if (result1$p.value < 0.05){
+    warning(paste0("Data entered for ", col.scores, " does not follow normal distribution.
 Function may not produce reasonable lower/upper bounds."), call. = F)
   }
 

@@ -14,7 +14,6 @@ Imports:
     dplyr,
     gtheory,
     magrittr,
-    MVN,
     stats,
     tidyr
 URL: https://github.com/tclark23/dtheory
