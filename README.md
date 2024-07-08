@@ -43,12 +43,12 @@ Just like magic!
 Or, say you have already decided on the number of trials you wish to
 use. Continuing from the previous example, let’s use n = 2. But now, you
 want to find the confidence interval for that G-coefficient at the alpha
-= .05 confidence level. For that, we can use the `dconf` function!
+= .1 confidence level. For that, we can use the `dconf` function!
 
 ``` r
 dconf(x, col.scores = "Metric", n = 2)
 #>               G-coef Lower Bound Upper Bound
-#> Metric, n = 2  0.915       0.266       0.998
+#> Metric, n = 2  0.915       0.452       0.995
 ```
 
 NOTE: The `dconf()` confidence interval calculation, originally

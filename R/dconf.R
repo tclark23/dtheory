@@ -3,7 +3,7 @@
 #' @param data A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.
 #' @param col.scores A column index or variable name denoting the column in the data frame that serves as the dependent variable.
 #' @param n The number of trials to test.
-#' @param conf.level Confidence level (in decimal form). 0.95 by default.
+#' @param conf.level Confidence level (in decimal form). 0.9 by default.
 #' @param rounded The number of decimal places the reliability coefficients should be rounded to. 3 by default.
 #'
 #' @return A data frame containing the G-coefficient (for absolute agreement), as well as the corresponding lower and upper bounds at the specified confidence level.
@@ -17,7 +17,7 @@
 #' x <- data.frame(c(1,1,1,2,2,2,3,3,3), c(1,2,3,1,2,3,1,2,3), c(12, 14, 12, 22, 22, 19, 17, 22, 20))
 #' colnames(x) <- c("Person", "Trial", "Metric")
 #' dconf(x, col.scores = "Metric", n = 5, conf.level = .9)
-dconf <- function(data, col.scores, n, conf.level = 0.95, rounded = 3) {
+dconf <- function(data, col.scores, n, conf.level = 0.9, rounded = 3) {
   # Dealing with data in the incorrect format
   if (!("Person" %in% colnames(data))) {
     stop("Data frame must contain a column called 'Person'", call. = F)

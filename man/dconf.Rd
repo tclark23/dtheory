@@ -4,7 +4,7 @@
 \alias{dconf}
 \title{Find G-Coefficient Confidence Interval}
 \usage{
-dconf(data, col.scores, n, conf.level = 0.95, rounded = 3)
+dconf(data, col.scores, n, conf.level = 0.9, rounded = 3)
 }
 \arguments{
 \item{data}{A data frame containing a column for "Person", a column for "Trial", and the remaining columns for metrics.}
@@ -13,7 +13,7 @@ dconf(data, col.scores, n, conf.level = 0.95, rounded = 3)
 
 \item{n}{The number of trials to test.}
 
-\item{conf.level}{Confidence level (in decimal form). 0.95 by default.}
+\item{conf.level}{Confidence level (in decimal form). 0.9 by default.}
 
 \item{rounded}{The number of decimal places the reliability coefficients should be rounded to. 3 by default.}
 }
