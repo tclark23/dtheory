@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 The goal of dtheory is to provide a more practical and useful set of
-functions for carrying out d-studies from Generalizability Theory,
+functions for carrying out D-studies from Generalizability Theory,
 specifically for studies with a random p x t design.
 
 ## Installation
